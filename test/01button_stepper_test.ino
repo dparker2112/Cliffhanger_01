@@ -1,11 +1,12 @@
+#include <Arduino.h>
 // testing a stepper motor with a Pololu A4988 driver board or equivalent
 
 // this version uses millis() to manage timing rather than delay()
 // and the movement is determined by a pair of momentary push switches
 // press one and it turns CW, press the other and it turns CCW
 
-byte directionPin = 9;
-byte stepPin = 8;
+byte directionPin = 12;
+byte stepPin = 13;
 
 byte buttonCWpin = 10;
 byte buttonCCWpin = 11;

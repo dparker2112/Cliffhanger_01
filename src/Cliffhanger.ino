@@ -30,7 +30,7 @@ void loop() {
   digitalWrite(dirPin,HIGH); 
   
   // Spin motor one rotation slowly
-  for(int x = 0; x < STEPS_PER_REV; x++) {
+  for(int x = 0; x < (STEPS_PER_REV * 4); x++) {
     digitalWrite(stepPin,HIGH); 
     delayMicroseconds(2000); 
     digitalWrite(stepPin,LOW); 
