@@ -1,9 +1,37 @@
 #include <Arduino.h>
+
 // Control for Cliffhanger game.  Made by David Parker nlightn0@gmail.com 04/01/2022
 
-// this version uses millis() to manage timing rather than delay()
-// and the movement is determined by a pair of momentary push switches
-// press one and it turns CW, press the other and it turns CCW
+/*
+*******************************Overview of button behaviors*************************************
+
+1)Resets game to start position moves goat to starting position. No sound. 
+
+2)Start button: Random goat move 1-12 spaces along the track. Each move different. 
+    Beginning yodel to start, then Traveling music track plays during movement. 
+    When the figure stops, a bell “DING”
+
+3)Go directly to space #24. Beginning yodel to start, then plays music while it travels 
+    and when the figure stops a bell “Ding”
+
+4)Manual run. Beginning yodel to start, character moves until host 
+    takes finger off button then the stop DING
+
+5)Sound track win..play sound ding ding ding ding and winning music
+
+6)Sound track loose…losing sound, and music
+
+7)Idle music.
+
+********************************Electromagnetic triggers***************************************
+
+An electromagnet creates a “start of game” sound when he crosses position one.
+
+An electromagnet at the top of the mountain would trigger a sound effect - falling yodel sound
+
+Perhaps another electromagnet could trigger red flashing lighting 
+    and a sound effect that warns that the goat is going to fall off when it passes.
+*/
 
 byte stepPin = 22;
 byte directionPin = 23;
@@ -15,7 +43,8 @@ byte yodelPin = 30;
 byte fallPin = 31;
 
 byte startlocationPin = 24;
-byte falllocationPin = 25;
+byte dangerlocationPin = 25;
+byte falllocationPin = 26;
 
 boolean buttonCWpressed = false;
 boolean buttonCCWpressed = false;
