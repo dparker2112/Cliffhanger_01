@@ -59,17 +59,17 @@ void setup() {
 
      Serial.begin(9600);
      Serial.println("Starting Cliffhanger");
+     
+     pinMode(buttonCWpin, INPUT_PULLUP);
+     pinMode(buttonCCWpin, INPUT_PULLUP);
+     pinMode(startlocationPin, INPUT_PULLUP);
+     pinMode(falllocationPin, INPUT_PULLUP);
 
      pinMode(directionPin, OUTPUT);
      pinMode(stepPin, OUTPUT);
      pinMode(ledPin, OUTPUT);
      pinMode(yodelPin, OUTPUT);
      pinMode(fallPin, OUTPUT);
-     
-     pinMode(buttonCWpin, INPUT_PULLUP);
-     pinMode(buttonCCWpin, INPUT_PULLUP);
-     pinMode(startlocationPin, INPUT_PULLUP);
-     pinMode(falllocationPin, INPUT_PULLUP);
      
 }
 
