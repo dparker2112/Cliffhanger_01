@@ -41,16 +41,18 @@ byte resetPin = 4;                      //Button #1
 byte startPin = 5;                      //Button #2
 byte space24Pin = 6;                    //Button #3                 
 byte manualRunPin = 7;                  //Button #4
-byte winningSoundPin = 8;               //Button #5
-byte losingSoundPin = 9;                //Button #6
+byte winningPin = 8;                    //Button #5
+byte losingPin = 9;                     //Button #6
 byte idleMusicPin = 10;                 //Button #7
 
                                         //Sound Trigger Pins -> Sound Board
-byte fallSoundPin = 31;                 //pin 1 on sound board
-byte yodelPin = 30;                     //pin 2 on sound board
+byte yodelSoundPin = 30;                //pin 1 on sound board
+byte fallSoundPin = 31;                 //pin 2 on sound board
 byte dingSoundPin = 32;                 //pin 3 on sound board
 byte winSoundPin = 33;                  //pin 4 on sound board
-byte idlesoundPin = 34;                 //pin 5 on sound board
+byte loseSoundPin = 34;                 //pin 5 on sound board
+byte idleSoundPin = 35;                 //pin 6 on sound board
+byte dangerSoundPin = 36;               //pin 7 on sound board
 
 byte startlocationPin = 24;             //IR position Sensors
 byte dangerlocationPin = 25;
@@ -63,23 +65,36 @@ boolean fallpinActive = false;
 
 unsigned long curMillis;
 unsigned long prevStepMillis = 0;
-unsigned long millisBetweenSteps = 5; // milliseconds
+unsigned long millisBetweenSteps = 5;   // milliseconds
 
 void setup() { 
 
      Serial.begin(9600);
      Serial.println("Starting Cliffhanger");
      
-     pinMode(manualRunpin, INPUT_PULLUP);
-     pinMode(buttonCCWpin, INPUT_PULLUP);
+     pinMode(resetPin, INPUT_PULLUP);
+     pinMode(startPin, INPUT_PULLUP);
+     pinMode(space24Pin, INPUT_PULLUP);
+     pinMode(manualRunPin, INPUT_PULLUP);
+     pinMode(winningPin, INPUT_PULLUP);
+     pinMode(losingPin, INPUT_PULLUP);
+     pinMode(idleMusicPin, INPUT_PULLUP);
+
      pinMode(startlocationPin, INPUT_PULLUP);
+     pinMode(dangerlocationPin, INPUT_PULLUP);
      pinMode(fallPin, INPUT_PULLUP);
 
      pinMode(directionPin, OUTPUT);
      pinMode(stepPin, OUTPUT);
      pinMode(ledPin, OUTPUT);
-     pinMode(yodelPin, OUTPUT);
-     pinMode(fallsoundPin, OUTPUT);
+     pinMode(yodelSoundPin, OUTPUT);
+     pinMode(fallSoundPin, OUTPUT);
+     pinMode(dingSoundPin, OUTPUT);
+     pinMode(winSoundPin, OUTPUT);
+     pinMode(loseSoundPin, OUTPUT);
+     pinMode(idleSoundPin, OUTPUT);
+     pinMode(dangerSoundPin, OUTPUT);
+     pinMode(ledPin, OUTPUT);
      
 }
 
@@ -90,7 +105,7 @@ void loop() {
     actOnButtons();
     readfallPin();
     playYodelSound();
-    playFallSound();
+    //playFallSound();
 }
 
 void readButtons() {
@@ -98,10 +113,19 @@ void readButtons() {
     buttonCCWpressed = false;
     buttonCWpressed = false;
     
-    if (digitalRead(manualRunpin) == LOW) {
+    if (digitalRead(resetPin) == LOW) {
+        buttonCCWpressed = true;
+    }    
+    if (digitalRead(manualRunPin) == LOW) {
         buttonCWpressed = true;
     }
-    if (digitalRead(buttonCCWpin) == LOW) {
+    if (digitalRead(startPin) == LOW) {
+        buttonCCWpressed = true;
+    }
+    if (digitalRead(space24Pin) == LOW) {
+        buttonCCWpressed = true;
+    }
+    if (digitalRead(resetPin) == LOW) {
         buttonCCWpressed = true;
     }
 }
@@ -141,19 +165,19 @@ void singleStep() {
 
 void playYodelSound() {
     if (buttonCWpressed == false) {
-        digitalWrite(yodelPin, HIGH);
+        digitalWrite(yodelSoundPin, HIGH);
     }
     if (buttonCWpressed == true) {
-        digitalWrite(yodelPin, LOW);
+        digitalWrite(yodelSoundPin, LOW);
     }
 }
 
 void playfallSound() {
 
     if (fallpinActive == true) {
-        digitalWrite(fallsoundPin, LOW);
+        digitalWrite(fallPin, LOW);
     }
     if (fallpinActive == false) {
-        digitalWrite(fallsoundPin, HIGH);
+        digitalWrite(fallPin, HIGH);
     }
 }
