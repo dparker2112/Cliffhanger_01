@@ -19,7 +19,7 @@
 
 5)Sound track win..play sound ding ding ding ding and winning music
 
-6)Sound track loose…losing sound, and music
+6)Sound track lose…losing sound, and music
 
 7)Idle music.
 
@@ -33,23 +33,33 @@ Perhaps another electromagnet could trigger red flashing lighting
     and a sound effect that warns that the goat is going to fall off when it passes.
 */
 
-byte stepPin = 22;
+byte stepPin = 22;                      //Stepper Motor Control
 byte directionPin = 23;
 
-byte buttonCWpin = 4;
-byte buttonCCWpin = 5;
+                                        //Lectern Buttons
+byte resetPin = 4;                      //Button #1
+byte startPin = 5;                      //Button #2
+byte space24Pin = 6;                    //Button #3                 
+byte manualRunPin = 7;                  //Button #4
+byte winningSoundPin = 8;               //Button #5
+byte losingSoundPin = 9;                //Button #6
+byte idleMusicPin = 10;                 //Button #7
 
-byte yodelPin = 30;
-byte fallPin = 31;
+                                        //Sound Trigger Pins -> Sound Board
+byte fallSoundPin = 31;                 //pin 1 on sound board
+byte yodelPin = 30;                     //pin 2 on sound board
+byte dingSoundPin = 32;                 //pin 3 on sound board
+byte winSoundPin = 33;                  //pin 4 on sound board
+byte idlesoundPin = 34;                 //pin 5 on sound board
 
-byte startlocationPin = 24;
+byte startlocationPin = 24;             //IR position Sensors
 byte dangerlocationPin = 25;
-byte falllocationPin = 26;
+byte fallPin = 26;
+byte ledPin = 13;                       //Used for testing
 
-boolean buttonCWpressed = false;
+boolean buttonCWpressed = false;        //Starting States
 boolean buttonCCWpressed = false;
-
-byte ledPin = 13;
+boolean fallpinActive = false;
 
 unsigned long curMillis;
 unsigned long prevStepMillis = 0;
@@ -60,16 +70,16 @@ void setup() {
      Serial.begin(9600);
      Serial.println("Starting Cliffhanger");
      
-     pinMode(buttonCWpin, INPUT_PULLUP);
+     pinMode(manualRunpin, INPUT_PULLUP);
      pinMode(buttonCCWpin, INPUT_PULLUP);
      pinMode(startlocationPin, INPUT_PULLUP);
-     pinMode(falllocationPin, INPUT_PULLUP);
+     pinMode(fallPin, INPUT_PULLUP);
 
      pinMode(directionPin, OUTPUT);
      pinMode(stepPin, OUTPUT);
      pinMode(ledPin, OUTPUT);
      pinMode(yodelPin, OUTPUT);
-     pinMode(fallPin, OUTPUT);
+     pinMode(fallsoundPin, OUTPUT);
      
 }
 
@@ -78,6 +88,7 @@ void loop() {
     curMillis = millis();
     readButtons();
     actOnButtons();
+    readfallPin();
     playYodelSound();
     playFallSound();
 }
@@ -87,11 +98,23 @@ void readButtons() {
     buttonCCWpressed = false;
     buttonCWpressed = false;
     
-    if (digitalRead(buttonCWpin) == LOW) {
+    if (digitalRead(manualRunpin) == LOW) {
         buttonCWpressed = true;
     }
     if (digitalRead(buttonCCWpin) == LOW) {
         buttonCCWpressed = true;
+    }
+}
+
+void readfallPin() {
+
+    fallpinActive = false;
+
+    if (digitalRead(fallPin) == LOW) {
+        fallpinActive = true;
+    }
+    if (digitalRead(fallPin) == HIGH) {
+        fallpinActive = false;
     }
 }
 
@@ -115,6 +138,7 @@ void singleStep() {
         digitalWrite(stepPin, LOW);
     }
 }
+
 void playYodelSound() {
     if (buttonCWpressed == false) {
         digitalWrite(yodelPin, HIGH);
@@ -123,11 +147,13 @@ void playYodelSound() {
         digitalWrite(yodelPin, LOW);
     }
 }
-void playFallSound() {
-    if (buttonCWpressed == false) {
-        digitalWrite(fallPin, HIGH);
+
+void playfallSound() {
+
+    if (fallpinActive == true) {
+        digitalWrite(fallsoundPin, LOW);
     }
-    if (buttonCWpressed == true) {
-        digitalWrite(fallPin, HIGH);
+    if (fallpinActive == false) {
+        digitalWrite(fallsoundPin, HIGH);
     }
 }
