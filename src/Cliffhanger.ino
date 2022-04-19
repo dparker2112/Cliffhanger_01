@@ -62,6 +62,9 @@ byte ledPin = 13;                       //Used for testing
 boolean buttonCWpressed = false;        //Starting States
 boolean buttonCCWpressed = false;
 boolean fallpinActive = false;
+boolean winSoundPlaying = false;
+boolean loseSoundPlaying = false;
+boolean idleSoundPlaying = false;
 
 unsigned long curMillis;
 unsigned long prevStepMillis = 0;
@@ -103,34 +106,47 @@ void loop() {
     curMillis = millis();
     readButtons();
     actOnButtons();
-    readfallPin();
+    readSensors();
+    actOnSensors();
     playYodelSound();
-    //playFallSound();
+    playFallSound();
+    playWinSound();
+    playLoseSound();
+    playIdleSound();
 }
 
 void readButtons() {
     
     buttonCCWpressed = false;
     buttonCWpressed = false;
+    winSoundPlaying = false;
+    loseSoundPlaying = false;
+    idleSoundPlaying = false;
     
     if (digitalRead(resetPin) == LOW) {
         buttonCCWpressed = true;
-    }    
+    }
+    if (digitalRead(startPin) == LOW) {
+        buttonCWpressed = true;
+    }
+    if (digitalRead(space24Pin) == LOW) {
+        buttonCWpressed = true;
+    }
     if (digitalRead(manualRunPin) == LOW) {
         buttonCWpressed = true;
     }
-    if (digitalRead(startPin) == LOW) {
-        buttonCCWpressed = true;
+    if (digitalRead(winningPin) == LOW) {
+        winSoundPlaying = true;
     }
-    if (digitalRead(space24Pin) == LOW) {
-        buttonCCWpressed = true;
+    if (digitalRead(losingPin) == LOW) {
+        loseSoundPlaying = true;
     }
-    if (digitalRead(resetPin) == LOW) {
-        buttonCCWpressed = true;
+    if (digitalRead(idleMusicPin) == LOW) {
+        idleSoundPlaying = true;
     }
 }
 
-void readfallPin() {
+void readSensors() {
 
     fallpinActive = false;
 
@@ -150,6 +166,20 @@ void actOnButtons() {
     if (buttonCCWpressed == true) {
         digitalWrite(directionPin, LOW);
         singleStep();
+    }
+    if (winSoundPlaying == true) {
+        playWinSound();
+    }
+    if (loseSoundPlaying == true) {
+        playLoseSound();
+    }
+    if (idleSoundPlaying == true) {
+        playIdleSound();
+    }
+}
+void actOnSensors() {
+    if (fallpinActive == true) {
+        playFallSound();
     }
 }
 
@@ -172,12 +202,36 @@ void playYodelSound() {
     }
 }
 
-void playfallSound() {
+void playFallSound() {
 
     if (fallpinActive == true) {
-        digitalWrite(fallPin, LOW);
+        digitalWrite(fallSoundPin, LOW);
     }
     if (fallpinActive == false) {
-        digitalWrite(fallPin, HIGH);
+        digitalWrite(fallSoundPin, HIGH);
+    }
+}
+void playWinSound() {
+    if (winSoundPlaying == false) {
+        digitalWrite(winSoundPin, HIGH);
+    }
+    if (winSoundPlaying == true) {
+        digitalWrite(winSoundPin, LOW);
+    }
+}
+void playLoseSound() {
+    if (loseSoundPlaying == false) {
+        digitalWrite(loseSoundPin, HIGH);
+    }
+    if (loseSoundPlaying == true) {
+        digitalWrite(loseSoundPin, LOW);
+    }
+}
+void playIdleSound() {
+    if (idleSoundPlaying == false) {
+        digitalWrite(idleSoundPin, HIGH);
+    }
+    if (idleSoundPlaying == true) {
+        digitalWrite(idleSoundPin, LOW);
     }
 }
