@@ -62,13 +62,14 @@ byte ledPin = 13;                       //Used for testing
 boolean buttonCWpressed = false;        //Starting States
 boolean buttonCCWpressed = false;
 boolean fallpinActive = false;
+boolean dangerSoundPin = false;
 boolean winSoundPlaying = false;
 boolean loseSoundPlaying = false;
 boolean idleSoundPlaying = false;
 
 unsigned long curMillis;
 unsigned long prevStepMillis = 0;
-unsigned long millisBetweenSteps = 5;   // milliseconds
+unsigned long millisBetweenSteps = 2;   // milliseconds
 
 void setup() { 
 
