@@ -38,7 +38,7 @@ byte directionPin = 23;
 
                                         //Lectern Buttons
 byte resetPin = 4;                      //Button #1
-byte startPin = 5;                      //Button #2
+byte travelPin = 5;                     //Button #2
 byte space24Pin = 6;                    //Button #3                 
 byte manualRunPin = 7;                  //Button #4
 byte winningPin = 8;                    //Button #5
@@ -46,7 +46,7 @@ byte losingPin = 9;                     //Button #6
 byte idleMusicPin = 10;                 //Button #7
 
                                         //Sound Trigger Pins -> Sound Board
-byte yodelSoundPin = 30;                //pin 1 on sound board
+byte travelSoundPin = 30;               //pin 1 on sound board
 byte fallSoundPin = 31;                 //pin 2 on sound board
 byte dingSoundPin = 32;                 //pin 3 on sound board
 byte winSoundPin = 33;                  //pin 4 on sound board
@@ -76,7 +76,7 @@ void setup() {
      Serial.println("Starting Cliffhanger");
      
      pinMode(resetPin, INPUT_PULLUP);
-     pinMode(startPin, INPUT_PULLUP);
+     pinMode(travelPin, INPUT_PULLUP);
      pinMode(space24Pin, INPUT_PULLUP);
      pinMode(manualRunPin, INPUT_PULLUP);
      pinMode(winningPin, INPUT_PULLUP);
@@ -90,7 +90,7 @@ void setup() {
      pinMode(directionPin, OUTPUT);
      pinMode(stepPin, OUTPUT);
      pinMode(ledPin, OUTPUT);
-     pinMode(yodelSoundPin, OUTPUT);
+     pinMode(travelSoundPin, OUTPUT);
      pinMode(fallSoundPin, OUTPUT);
      pinMode(dingSoundPin, OUTPUT);
      pinMode(winSoundPin, OUTPUT);
@@ -108,7 +108,7 @@ void loop() {
     actOnButtons();
     readSensors();
     actOnSensors();
-    playYodelSound();
+    playTravelSound();
     playFallSound();
     playWinSound();
     playLoseSound();
@@ -126,7 +126,7 @@ void readButtons() {
     if (digitalRead(resetPin) == LOW) {
         buttonCCWpressed = true;
     }
-    if (digitalRead(startPin) == LOW) {
+    if (digitalRead(travelPin) == LOW) {
         buttonCWpressed = true;
     }
     if (digitalRead(space24Pin) == LOW) {
@@ -193,12 +193,12 @@ void singleStep() {
     }
 }
 
-void playYodelSound() {
+void playTravelSound() {
     if (buttonCWpressed == false) {
-        digitalWrite(yodelSoundPin, HIGH);
+        digitalWrite(travelSoundPin, HIGH);
     }
     if (buttonCWpressed == true) {
-        digitalWrite(yodelSoundPin, LOW);
+        digitalWrite(travelSoundPin, LOW);
     }
 }
 
