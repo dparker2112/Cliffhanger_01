@@ -62,7 +62,8 @@ byte ledPin = 13;                       //Used for testing
 boolean buttonCWpressed = false;        //Starting States
 boolean buttonCCWpressed = false;
 boolean fallpinActive = false;
-boolean dangerSoundPin = false;
+boolean dangerSoundPinActive = false;
+boolean resetPinActive = false;
 boolean winSoundPlaying = false;
 boolean loseSoundPlaying = false;
 boolean idleSoundPlaying = false;
@@ -111,7 +112,7 @@ void loop() {
     actOnSensors();
     playTravelSound();
     playFallSound();
-    playWinSound();
+    //playWinSound();
     playLoseSound();
     playIdleSound();
 }
@@ -137,7 +138,13 @@ void readButtons() {
         buttonCWpressed = true;
     }
     if (digitalRead(winningPin) == LOW) {
-        winSoundPlaying = true;
+            digitalWrite(winSoundPin, LOW);
+    }
+    else {
+        digitalWrite(winSoundPin, HIGH);
+    }
+    //if (winSoundPlaying == false) {
+        //digitalWrite(winSoundPin, HIGH);
     }
     if (digitalRead(losingPin) == LOW) {
         loseSoundPlaying = true;
@@ -145,7 +152,6 @@ void readButtons() {
     if (digitalRead(idleMusicPin) == LOW) {
         idleSoundPlaying = true;
     }
-}
 
 void readSensors() {
 
@@ -186,8 +192,6 @@ void actOnSensors() {
 
 void singleStep() {
     if (curMillis - prevStepMillis >= millisBetweenSteps) {
-            // next 2 lines changed 28 Nov 2018
-        //prevStepMillis += millisBetweenSteps;
         prevStepMillis = curMillis;
         digitalWrite(stepPin, HIGH);
         digitalWrite(stepPin, LOW);
@@ -212,14 +216,7 @@ void playFallSound() {
         digitalWrite(fallSoundPin, HIGH);
     }
 }
-void playWinSound() {
-    if (winSoundPlaying == false) {
-        digitalWrite(winSoundPin, HIGH);
-    }
-    if (winSoundPlaying == true) {
-        digitalWrite(winSoundPin, LOW);
-    }
-}
+//playWinSound
 void playLoseSound() {
     if (loseSoundPlaying == false) {
         digitalWrite(loseSoundPin, HIGH);
