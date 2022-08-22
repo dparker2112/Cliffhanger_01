@@ -5,23 +5,22 @@
 /*
 *******************************Overview of button behaviors*************************************
 
-1)Resets game to start position moves goat to starting position. No sound. 
+1)Start button: Random goat move 1-12 spaces along the track. Each move different. 
+Beginning yodel to start, then Traveling music track plays during movement. When the figure stops, a
+bell “DING”
 
-2)Start button: Random goat move 1-12 spaces along the track. Each move different. 
-    Beginning yodel to start, then Traveling music track plays during movement. 
-    When the figure stops, a bell “DING”
+2)Go directly to space #24. Beginning yodel to start, then plays music while it travels and 
+when the figure stops a bell “Ding”
 
-3)Go directly to space #24. Beginning yodel to start, then plays music while it travels 
-    and when the figure stops a bell “Ding”
+3)Manual run. Beginning yodel to start, character moves until host takes finger off button then the stop DING
 
-4)Manual run. Beginning yodel to start, character moves until host 
-    takes finger off button then the stop DING
+4)Sound track win..play sound ding ding ding ding and winning music
 
-5)Sound track win..play sound ding ding ding ding and winning music
+5)Sound track loose…loosing sound, and music
 
-6)Sound track lose…losing sound, and music
+6)Idle music.
 
-7)Idle music.
+7)Resets game to start position moves goat to starting position. No sound.
 
 ********************************Electromagnetic triggers***************************************
 
