@@ -104,7 +104,7 @@ void loop() {
         int sensor2Val = digitalRead(6);
         if (sensor2Val == LOW) {
             digitalWrite(travelSoundPin,LOW);
-            digitalWrite(dirPin,HIGH); // Enables the motor to move in a particular direction
+            digitalWrite(dirPin,HIGH); // Enables the belt to move forward
         // Makes 6100 pulses to go to space 24
         for(int x = 0; x < 6100; x++) {
             digitalWrite(stepPin,HIGH);  
@@ -121,7 +121,7 @@ void loop() {
      //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
         int sensor3Val = digitalRead(7);
         if (sensor3Val == LOW) {
-            digitalWrite(dirPin,HIGH); // Enables the motor to move in a particular direction
+            digitalWrite(dirPin,HIGH); // Enables the belt to move forward
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
@@ -136,27 +136,27 @@ void loop() {
     //Cue #4, Sound Track WIN, Button 4 > Pin 8 INPUT > Pin 33 OUTPUT > Pin 3 on sound board
         int sensor4Val = digitalRead(8);
         if (sensor4Val == HIGH) {
-            digitalWrite(33, HIGH);
+            digitalWrite(winSoundPin, HIGH);
         }
         else {
-            digitalWrite(33, LOW);
+            digitalWrite(winSoundPin, LOW);
         }
 
     //Cue #5, Sound Track LOSE, Button 5 > Pin 9 INPUT > Pin 34 OUTPUT > Pin 2 on sound board
         int sensor5Val = digitalRead(9);
         if (sensor5Val == HIGH) {
-            digitalWrite(34, HIGH);
+            digitalWrite(loseSoundPin, HIGH);
         }
         else {
-            digitalWrite(34, LOW);
+            digitalWrite(loseSoundPin, LOW);
         }
 
     //Cue #6, Sound Track IDLE MUSIC, Button 6 > Pin 10 INPUT > Pin 35 OUTPUT > Pin 6 on sound board
         int sensor6Val = digitalRead(10);
         if (sensor6Val == HIGH) {
-            digitalWrite(35, HIGH);
+            digitalWrite(idleSoundPin, HIGH);
         }
         else {
-            digitalWrite(35, LOW);
+            digitalWrite(idleSoundPin, LOW);
         }
 }
