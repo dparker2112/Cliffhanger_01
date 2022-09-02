@@ -16,7 +16,7 @@ when the figure stops a bell “Ding”
 
 4)Sound track win..play sound ding ding ding ding and winning music
 
-5)Sound track loose…loosing sound, and music
+5)Sound track lose…loosing sound, and music
 
 6)Idle music.
 
@@ -43,17 +43,27 @@ T07.ogg                                 Buzz
 T08.ogg                                 Reset Game Music
 */
 
-int speed1 = 1000;
+const int speed1 = 1000;
+const int speed2 = 500;
 
-byte travelSoundPin = 30;               //pin 1 on sound board : Hold Looping Trigger
-byte fallSoundPin = 31;                 //pin 2 on sound board : Basic Trigger
-byte winSoundPin = 32;                  //pin 3 on sound board : Basic Trigger
-byte dingSoundPin = 33;                 //pin 4 on sound board : Basic Trigger
-byte loseSoundPin = 34;                 //pin 5 on sound board : Basic Trigger
-byte idleSoundPin = 35;                 //pin 6 on sound board : Latching Loop Trigger
-byte dangerSoundPin = 36;               //pin 7 on sound board : Basic Trigger
-byte stepPin = 22;                      //Stepper Motor Control
-byte dirPin  = 23;                      //Stepper Motor Control
+const int reset = 4;                         //Cue 7 : Moves goat to Start of game location : resetPin 
+const int randomMove = 5;                    //Cue 1 : Moves goat random distance between resetPin and dangerPin
+const int space24 = 6;                       //Cue 2 : Moves goat to just before dangerPin
+const int manual = 7;                        //Cue 3 : Moves goat until button is released
+const int win = 8;                           //Cue 4 : plays win sound
+const int lose = 9;                          //Cue 5 : plays lose sound
+const int idle = 10;                         //Cue 6 : plays win sound
+
+const int travelSoundPin = 30;               //pin 1 on sound board : Hold Looping Trigger
+const int fallSoundPin = 31;                 //pin 2 on sound board : Basic Trigger
+const int winSoundPin = 32;                  //pin 3 on sound board : Basic Trigger
+const int dingSoundPin = 33;                 //pin 4 on sound board : Basic Trigger
+const int loseSoundPin = 34;                 //pin 5 on sound board : Basic Trigger
+const int idleSoundPin = 35;                 //pin 6 on sound board : Latching Loop Trigger
+const int dangerSoundPin = 36;               //pin 7 on sound board : Basic Trigger
+const int stepPin = 22;                      //Stepper Motor Control
+const int dirPin  = 23;                      //Stepper Motor Control
+const int resetPin  = 24;                    //Start of game location
 
 void setup() { 
     
@@ -127,9 +137,9 @@ void loop() {
             digitalWrite(stepPin,LOW); 
             delayMicroseconds(speed1);
             digitalWrite(travelSoundPin,LOW);
-        } else {digitalWrite(travelSoundPin,HIGH);
-            //digitalWrite(dingSoundPin,LOW);
-            delay(125);
+            digitalWrite(travelSoundPin,HIGH);
+            digitalWrite(dingSoundPin,LOW);
+            //delay(25);
             digitalWrite(dingSoundPin,HIGH);
         }      
 
