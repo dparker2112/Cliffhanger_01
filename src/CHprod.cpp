@@ -46,27 +46,31 @@ T08.ogg                                 Reset Game Music
 const int speed1 = 1000;
 const int speed2 = 500;
 
-int buttonState = 0;                        // Current stete of the button - Used to trigger T04 1 Ding sound at end of travel move
-int lastButtonState = 0;                    // previous stste of the button
+int buttonState = 0;                   // Current stete of the button - Used to trigger T04 1 Ding sound at end of travel move
+int lastButtonState = 0;               // previous state of the button
 
-const int reset = 4;                        //Cue 7 : Moves goat to Start of game location : resetPin 
-const int randomMove = 5;                   //Cue 1 : Moves goat random distance between resetPin and dangerPin
-const int space24 = 6;                      //Cue 2 : Moves goat to just before dangerPin
-const int manual = 7;                       //Cue 3 : Moves goat until button is released
-const int win = 8;                          //Cue 4 : plays win sound
-const int lose = 9;                         //Cue 5 : plays lose sound
-const int idle = 10;                        //Cue 6 : plays win sound
-
-const int travelSoundPin = 30;              //pin 1 on sound board : Hold Looping Trigger
-const int fallSoundPin = 31;                //pin 2 on sound board : Basic Trigger
-const int winSoundPin = 32;                 //pin 3 on sound board : Basic Trigger
-const int dingSoundPin = 33;                //pin 4 on sound board : Basic Trigger
-const int loseSoundPin = 34;                //pin 5 on sound board : Basic Trigger
-const int idleSoundPin = 35;                //pin 6 on sound board : Latching Loop Trigger
-const int dangerSoundPin = 36;              //pin 7 on sound board : Basic Trigger
-const int stepPin = 22;                     //Stepper Motor Control
-const int dirPin  = 23;                     //Stepper Motor Control
-const int resetPin  = 24;                   //Start of game location
+byte stepPin = 22;                     //Stepper Motor Control
+byte dirPin  = 23;                     //Stepper Motor Control
+//-------------------------------------Buttons-------------------------------------------------------------------------------------
+byte reset = 4;                        //Cue 7 : Moves goat to Start of game location : resetPin 
+byte randomMove = 5;                   //Cue 1 : Moves goat random distance between resetPin and dangerPin
+byte space24 = 6;                      //Cue 2 : Moves goat to just before dangerPin
+byte manual = 7;                       //Cue 3 : Moves goat until button is released
+byte win = 8;                          //Cue 4 : plays win sound
+byte lose = 9;                         //Cue 5 : plays lose sound
+byte idle = 10;                        //Cue 6 : plays win sound
+//-------------------------------------Sound Board Triggers-------------------------------------------------------------------------------------
+byte travelSoundPin = 30;              //pin 1 on sound board : Hold Looping Trigger
+byte fallSoundPin = 31;                //pin 2 on sound board : Basic Trigger
+byte winSoundPin = 32;                 //pin 3 on sound board : Basic Trigger
+byte dingSoundPin = 33;                //pin 4 on sound board : Basic Trigger
+byte loseSoundPin = 34;                //pin 5 on sound board : Basic Trigger
+byte idleSoundPin = 35;                //pin 6 on sound board : Latching Loop Trigger
+byte dangerSoundPin = 36;              //pin 7 on sound board : Basic Trigger
+//-------------------------------------Optical Switches-------------------------------------------------------------------------------------
+byte resetPin  = 24;                   //Start of game location
+byte dangerPin  = 25;                   //Start of game location
+byte fallPin  = 26;                   //Start of game location
 
 void setup() { 
     
@@ -100,18 +104,28 @@ void setup() {
 
 void loop() {
 
-    //read the buttons into variables
+    //Read the buttons
 
-    /*
-    //Cue #1, Random Move, Button 1 > Pin 5 INPUT > STEP/DIR, Travel music then Ding sound
         int sensor1Val = digitalRead(5);
-        if (sensor1Val == HIGH) {
-            digitalWrite(33, HIGH);
-        }
-        else {
-            digitalWrite(33, LOW);
-        }
-    */
+        if (sensor1Val == LOW) {
+            int moveLength=random(100,7000);
+            buttonState++;
+            digitalWrite(dirPin,HIGH);                      // Enables the belt to move forward
+        for(int x = 0; x < moveLength; x++) {               // Moves goat a random number of steps
+            digitalWrite(stepPin,HIGH);  
+            delayMicroseconds(speed1); 
+            digitalWrite(stepPin,LOW); 
+            delayMicroseconds(speed1);
+            }
+            digitalWrite(travelSoundPin,LOW);
+            digitalWrite(travelSoundPin,HIGH);
+            if (buttonState != lastButtonState){
+                digitalWrite(dingSoundPin,LOW);
+                delay(25);
+                digitalWrite(dingSoundPin,HIGH);
+                buttonState--;
+            }
+        } 
     
     //Cue #2, Space 24 Move, Button 2 > Pin 6 INPUT > STEP/DIR, Travel music then Ding sound
         int sensor2Val = digitalRead(6);
@@ -133,7 +147,7 @@ void loop() {
      //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
         int sensor3Val = digitalRead(7);
         if (sensor3Val == LOW) {
-            buttonState = buttonState ++;
+            buttonState++;
             digitalWrite(dirPin,HIGH); // Enables the belt to move forward
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
@@ -145,7 +159,7 @@ void loop() {
                 digitalWrite(dingSoundPin,LOW);
                 delay(25);
                 digitalWrite(dingSoundPin,HIGH);
-                buttonState = buttonState --;
+                buttonState--;
             }
         }      
 
