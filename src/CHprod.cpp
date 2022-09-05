@@ -49,6 +49,7 @@ const int speed2 = 500;
 int buttonState = 0;                   // Current stete of the button - Used to trigger T04 1 Ding sound at end of travel move
 int lastButtonState = 0;               // previous state of the button
 
+byte enablePin = 22;                   //Stepper Motor Control
 byte stepPin = 22;                     //Stepper Motor Control
 byte dirPin  = 23;                     //Stepper Motor Control
 //-------------------------------------Buttons-------------------------------------------------------------------------------------
@@ -69,8 +70,8 @@ byte idleSoundPin = 35;                //pin 6 on sound board : Latching Loop Tr
 byte dangerSoundPin = 36;              //pin 7 on sound board : Basic Trigger
 //-------------------------------------Optical Switches-------------------------------------------------------------------------------------
 byte resetPin  = 24;                   //Start of game location
-byte dangerPin  = 25;                   //Start of game location
-byte fallPin  = 26;                   //Start of game location
+byte dangerPin  = 25;                  //Start of game location
+byte fallPin  = 26;                    //Start of game location
 
 void setup() { 
     
@@ -106,8 +107,8 @@ void loop() {
 
     //Read the buttons
 
-        int sensor1Val = digitalRead(5);
-        if (sensor1Val == LOW) {
+        int cue1Val = digitalRead(5);
+        if (cue1Val == LOW) {
             int moveLength=random(100,7000);
             buttonState++;
             digitalWrite(dirPin,HIGH);                      // Enables the belt to move forward
@@ -128,11 +129,11 @@ void loop() {
         } 
     
     //Cue #2, Space 24 Move, Button 2 > Pin 6 INPUT > STEP/DIR, Travel music then Ding sound
-        int sensor2Val = digitalRead(6);
-        if (sensor2Val == LOW) {
+        int cue2Val = digitalRead(6);
+        if (cue2Val == LOW) {
             digitalWrite(travelSoundPin,LOW);
             digitalWrite(dirPin,HIGH);                      // Enables the belt to move forward
-        for(int x = 0; x < 6100; x++) {                     // Moves goat 6100 steps to Space 24 - just before Danger sensor
+        for(int x = 0; x < 6100; x++) {                     // Moves goat 6100 steps to Space 24 - just before Danger cue
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
@@ -145,8 +146,8 @@ void loop() {
         }
 
      //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
-        int sensor3Val = digitalRead(7);
-        if (sensor3Val == LOW) {
+        int cue3Val = digitalRead(7);
+        if (cue3Val == LOW) {
             buttonState++;
             digitalWrite(dirPin,HIGH); // Enables the belt to move forward
             digitalWrite(stepPin,HIGH);  
@@ -164,8 +165,8 @@ void loop() {
         }      
 
     //Cue #4, Sound Track WIN, Button 4 > Pin 8 INPUT > Pin 33 OUTPUT > Pin 3 on sound board
-        int sensor4Val = digitalRead(8);
-        if (sensor4Val == HIGH) {
+        int cue4Val = digitalRead(8);
+        if (cue4Val == HIGH) {
             digitalWrite(winSoundPin, HIGH);
         }
         else {
@@ -173,8 +174,8 @@ void loop() {
         }
 
     //Cue #5, Sound Track LOSE, Button 5 > Pin 9 INPUT > Pin 34 OUTPUT > Pin 2 on sound board
-        int sensor5Val = digitalRead(9);
-        if (sensor5Val == HIGH) {
+        int cue5Val = digitalRead(9);
+        if (cue5Val == HIGH) {
             digitalWrite(loseSoundPin, HIGH);
         }
         else {
@@ -182,11 +183,27 @@ void loop() {
         }
 
     //Cue #6, Sound Track IDLE MUSIC, Button 6 > Pin 10 INPUT > Pin 35 OUTPUT > Pin 6 on sound board
-        int sensor6Val = digitalRead(10);
-        if (sensor6Val == HIGH) {
+        int cue6Val = digitalRead(10);
+        if (cue6Val == HIGH) {
             digitalWrite(idleSoundPin, HIGH);
         }
         else {
             digitalWrite(idleSoundPin, LOW);
         }
+    //Cue #7, Move goat to start position, Pin 24 optical cue INPUT
+        int cue7Val = digitalRead(6);
+        if  (cue7Val == LOW) {
+            digitalWrite(dirPin,HIGH);                      // Enables the belt to move forward
+            digitalWrite(stepPin,HIGH);  
+            delayMicroseconds(speed1); 
+            digitalWrite(stepPin,LOW); 
+            delayMicroseconds(speed1);
+               int sensor7Val = digitalRead(resetPin);
+                if (sensor7Val == LOW) {
+                digitalWrite(enablePin,HIGH);
+                digitalWrite(startSoundPin,LOW);
+                delay(25);
+                digitalWrite(startSoundPin,HIGH);
+                }
+            }
 }
