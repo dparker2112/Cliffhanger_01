@@ -68,6 +68,7 @@ byte dingSoundPin = 33;                //pin 4 on sound board : Basic Trigger
 byte loseSoundPin = 34;                //pin 5 on sound board : Basic Trigger
 byte idleSoundPin = 35;                //pin 6 on sound board : Latching Loop Trigger
 byte dangerSoundPin = 36;              //pin 7 on sound board : Basic Trigger
+byte startSoundPin = 37;              //pin 7 on sound board : Basic Trigger
 //-------------------------------------Optical Switches-------------------------------------------------------------------------------------
 byte resetPin  = 24;                   //Start of game location
 byte dangerPin  = 25;                  //Start of game location
