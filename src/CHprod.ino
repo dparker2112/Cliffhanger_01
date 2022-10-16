@@ -117,16 +117,24 @@ void loop() {
             delayMicroseconds(speed2);
             }
     
-    /*
     //Cue #1, Random Move, Button 1 > Pin 5 INPUT > STEP/DIR, Travel music then Ding sound
         int sensor1Val = digitalRead(5);
-        if (sensor1Val == HIGH) {
-            digitalWrite(33, HIGH);
+        int randMove = random(3000);
+        if (sensor1Val == LOW) {
+            digitalWrite(travelSoundPin,LOW);
+            digitalWrite(dirPin,HIGH); // Enables the belt to move forward
+        // Makes random number of pulses to go to space 12 at the furthest
+        for(int x = 0; x < randMove; x++) {
+            digitalWrite(stepPin,HIGH);  
+            delayMicroseconds(speed1); 
+            digitalWrite(stepPin,LOW); 
+            delayMicroseconds(speed1);
+            }
+            digitalWrite(travelSoundPin,HIGH);
+            digitalWrite(dingSoundPin,LOW);
+            delay(25);
+            digitalWrite(dingSoundPin,HIGH);
         }
-        else {
-            digitalWrite(33, LOW);
-        }
-    */
     
     //Cue #2, Space 24 Move, Button 2 > Pin 6 INPUT > STEP/DIR, Travel music then Ding sound
         int sensor2Val = digitalRead(6);
@@ -134,7 +142,7 @@ void loop() {
         if (sensor2Val == LOW && sensor9Val == LOW) {
             digitalWrite(travelSoundPin,LOW);
             digitalWrite(dirPin,HIGH); // Enables the belt to move forward
-        // Makes 6100 pulses to go to space 24
+        // Makes 6000 pulses to go to space 24
         for(int x = 0; x < 6000; x++) {
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
