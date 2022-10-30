@@ -66,7 +66,10 @@ const int resetPin  = 24;                    //Start of game location
 const int dangerlocationPin = 25;            //Play Danger Sound
 const int fallPin = 26;                      //Play Lose Sound
 const int stepPin = 22;                      //Stepper Motor Control
-const int dirPin  = 23;                      //Stepper Motor Control
+const int dirPin  = 23;
+//********************************Button 3 Variables******************************************
+int buttonState = 1;
+int lastButtonState = 1;
 
 
 void setup() { 
@@ -155,20 +158,28 @@ void loop() {
             digitalWrite(dingSoundPin,HIGH);
         }
 
-     //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
-        int sensor3Val = digitalRead(7);
-        if (sensor3Val == LOW) {
+    //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
+        buttonState = digitalRead(7);
+        if (buttonState != lastButtonState) {
+            if (buttonState == LOW){
             digitalWrite(travelSoundPin,LOW);
             digitalWrite(dirPin,HIGH); // Enables the belt to move forward
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
             delayMicroseconds(speed1);
-            digitalWrite(travelSoundPin,HIGH);
-            digitalWrite(dingSoundPin,LOW);
-            //delay(25);
-            digitalWrite(dingSoundPin,HIGH);
-        }      
+                /*int dangerVal = digitalRead(dangerPin);
+                if (dangerVal == LOW) {
+                digitalWrite(dangerSoundPin,LOW);
+                */
+            } else {
+                digitalWrite(travelSoundPin,HIGH);
+                digitalWrite(dingSoundPin,LOW);
+                delay(15);
+                digitalWrite(dingSoundPin,HIGH);
+            }
+        lastButtonState = buttonState;
+        }       
 
     //Cue #4, Sound Track WIN, Button 4 > Pin 8 INPUT > Pin 33 OUTPUT > Pin 3 on sound board
         int sensor4Val = digitalRead(8);

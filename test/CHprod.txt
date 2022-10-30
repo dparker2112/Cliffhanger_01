@@ -152,7 +152,7 @@ void loop() {
             digitalWrite(dingSoundPin,HIGH);
         }
 
-     //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
+    //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
         int cue3Val = digitalRead(7);
         while (cue3Val == LOW) {
             //buttonState++;
