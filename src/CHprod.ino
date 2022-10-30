@@ -63,7 +63,7 @@ const int idleSoundPin = 35;                 //pin 6 on sound board : Latching L
 const int dangerSoundPin = 36;               //pin 7 on sound board : Basic Trigger
 //********************************SENSORS AND MOTOR CONTROL***********************************
 const int resetPin  = 24;                    //Start of game location
-const int dangerlocationPin = 25;            //Play Danger Sound
+const int dangerLocationPin = 25;            //Play Danger Sound
 const int fallPin = 26;                      //Play Lose Sound
 const int stepPin = 22;                      //Stepper Motor Control
 const int dirPin  = 23;
@@ -132,6 +132,10 @@ void loop() {
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
             delayMicroseconds(speed1);
+                int dangerVal = digitalRead(dangerLocationPin);
+                if (dangerVal == LOW) {
+                digitalWrite(dangerSoundPin,LOW);
+                }
             }
             digitalWrite(travelSoundPin,HIGH);
             digitalWrite(dingSoundPin,LOW);
