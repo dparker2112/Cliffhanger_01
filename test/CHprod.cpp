@@ -108,6 +108,8 @@ void loop() {
 
     //Read the buttons
 
+    //Cue #1, Random Move, Button 1 > Pin 5 INPUT > STEP/DIR, Travel music then Ding sound
+
         int cue1Val = digitalRead(5);
         if (cue1Val == LOW) {
             int moveLength=random(100,7000);
@@ -118,6 +120,10 @@ void loop() {
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
             delayMicroseconds(speed1);
+                int dangerVal = digitalRead(dangerPin);
+                if (dangerVal == LOW) {
+                digitalWrite(dangerSoundPin,LOW);
+                }
             }
             digitalWrite(travelSoundPin,LOW);
             digitalWrite(travelSoundPin,HIGH);
@@ -148,21 +154,25 @@ void loop() {
 
      //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
         int cue3Val = digitalRead(7);
-        if (cue3Val == LOW) {
-            buttonState++;
+        while (cue3Val == LOW) {
+            //buttonState++;
             digitalWrite(dirPin,HIGH); // Enables the belt to move forward
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
             delayMicroseconds(speed1);
+                /*int dangerVal = digitalRead(dangerPin);
+                if (dangerVal == LOW) {
+                digitalWrite(dangerSoundPin,LOW);
+                }*/
             digitalWrite(travelSoundPin,LOW);
-            digitalWrite(travelSoundPin,HIGH);
-            if (buttonState != lastButtonState){
+            /*if (buttonState != lastButtonState){
+                digitalWrite(travelSoundPin,HIGH);
                 digitalWrite(dingSoundPin,LOW);
                 delay(25);
                 digitalWrite(dingSoundPin,HIGH);
                 buttonState--;
-            }
+            }*/
         }      
 
     //Cue #4, Sound Track WIN, Button 4 > Pin 8 INPUT > Pin 33 OUTPUT > Pin 3 on sound board
@@ -199,8 +209,8 @@ void loop() {
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
             delayMicroseconds(speed1);
-               int sensor7Val = digitalRead(resetPin);
-                if (sensor7Val == LOW) {
+               int sensor24Val = digitalRead(resetPin);
+                if (sensor24Val == LOW) {
                 digitalWrite(enablePin,HIGH);
                 digitalWrite(startSoundPin,LOW);
                 delay(25);
