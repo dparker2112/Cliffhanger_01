@@ -103,6 +103,7 @@ void setup() {
     digitalWrite(idleSoundPin,HIGH);
     digitalWrite(dangerSoundPin,HIGH);
 
+    Serial.begin(9600);
 }
 
 void loop() {
@@ -165,24 +166,24 @@ void loop() {
     //Cue #3, Manual Move, Button 3 > Pin 7 INPUT > STEP/DIR, Travel music then Ding sound
         buttonState = digitalRead(7);
         if (buttonState != lastButtonState) {
-            if (buttonState == LOW){
+            if (buttonState == LOW) {
             digitalWrite(travelSoundPin,LOW);
             digitalWrite(dirPin,HIGH); // Enables the belt to move forward
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
             delayMicroseconds(speed1);
-                /*int dangerVal = digitalRead(dangerPin);
-                if (dangerVal == LOW) {
-                digitalWrite(dangerSoundPin,LOW);
-                */
-            } else {
+                //int dangerVal = digitalRead(dangerPin);
+                //if (dangerVal == LOW) {
+                //digitalWrite(dangerSoundPin,LOW);
+            }
+            if (buttonState == HIGH) {
                 digitalWrite(travelSoundPin,HIGH);
                 digitalWrite(dingSoundPin,LOW);
                 delay(15);
                 digitalWrite(dingSoundPin,HIGH);
             }
-        lastButtonState = buttonState;
+        //lastButtonState = buttonState;
         }       
 
     //Cue #4, Sound Track WIN, Button 4 > Pin 8 INPUT > Pin 33 OUTPUT > Pin 3 on sound board
