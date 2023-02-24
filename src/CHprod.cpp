@@ -43,6 +43,10 @@ T07.ogg                                 Buzz
 T08.ogg                                 Reset Game Music
 */
 
+//********************************TIMING FOR MOVES********************************************
+unsigned long previousMicros = 0;        // will store last time LED was updated
+long OnTime = 250;           // microseconds of on-time
+long OffTime = 750;          // microseconds of off-time
 const int speed1 = 1000;
 const int speed2 = 250;
 //********************************LECTERN BUTTONS*********************************************
