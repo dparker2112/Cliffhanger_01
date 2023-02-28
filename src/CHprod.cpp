@@ -9,18 +9,17 @@
 Beginning yodel to start, then Traveling music track plays during movement. When the figure stops, a
 bell “DING”
 
-2)Go directly to space #24. Beginning yodel to start, then plays music while it travels and 
-when the figure stops a bell “Ding”
+2)Single Buzz Sound.
 
 3)Manual run. Beginning yodel to start, character moves until host takes finger off button then the stop DING
 
-4)Sound track win..play sound ding ding ding ding and winning music
+4)Single Ding Sound.
 
-5)Sound track lose…loosing sound, and music
+5)Go to 1" after the Danger sensor (Space 24).  Travel music plays, Danger sound plays, ding at end of travel.
 
 6)Idle music.
 
-7)Resets game to start position moves goat to starting position. No sound.
+7)Resets game to start position moves goat to starting position. Play Reset Game Music.
 
 ********************************Electromagnetic triggers***************************************
 
@@ -39,8 +38,9 @@ T03.ogg                                 Winning Sound
 T04.ogg                                 1 Ding
 T05.ogg                                 Danger Sound
 T06LATCH.ogg                            Idle Music
-T07.ogg                                 Buzz
+T07.ogg                                 1 Buzz
 T08.ogg                                 Reset Game Music
+T09LATCH.ogg                            Travel Music
 */
 
 //********************************TIMING FOR MOVES********************************************
@@ -155,7 +155,7 @@ void loop() {
             digitalWrite(travelSoundPin,LOW);
             digitalWrite(dirPin,HIGH); // Enables the belt to move forward
         // Makes 6000 pulses to go to space 24
-        for(int x = 0; x < 6000; x++) {
+        for(int x = 0; x < 7100; x++) {
             digitalWrite(stepPin,HIGH);  
             delayMicroseconds(speed1); 
             digitalWrite(stepPin,LOW); 
